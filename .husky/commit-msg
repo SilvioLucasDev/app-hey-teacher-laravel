@@ -1,9 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 #cores
 NC='\033[0m'
 BBlue='\033[1;34m'
@@ -24,4 +21,16 @@ if [[ $COMMIT_MESSAGE == $ISSUE_ID* ]]; then
   exit 0
 fi
 
-echo "$COMMIT_MESSAGE $ISSUE_ID" >$1
+# Verificar se a mensagem de commit contém as tags semânticas com dois pontos
+SEMANTIC_TAGS=("docs:" "feat:" "fix:" "perf:" "test:" "refactor:" "style:" "build:" "ci:" "chore:" "revert:")
+
+for TAG in "${SEMANTIC_TAGS[@]}"; do
+  if [[ $COMMIT_MESSAGE == *"$TAG"* ]]; then
+
+    echo "$COMMIT_MESSAGE $ISSUE_ID" >$1
+    exit 0
+  fi
+done
+
+echo -e "${BRed}ERRO: A mensagem de commit não contém nenhuma das tags semânticas com os dois pontos (docs:, feat:, fix:, perf:, test:, refactor:, style:, build:, ci:, chore:, revert:)${NC}"
+exit 1
