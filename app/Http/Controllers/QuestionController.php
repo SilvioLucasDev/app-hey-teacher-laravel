@@ -10,7 +10,7 @@ class QuestionController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'question' => ['required'],
+            'question' => ['required', 'min:10'],
         ]);
 
         Question::query()->create(
