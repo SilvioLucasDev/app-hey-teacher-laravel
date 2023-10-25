@@ -6,9 +6,9 @@ use function Pest\Laravel\{actingAs, get};
 
 it('should list all the questions', function () {
     // Arrange :: Preparar
-    $user = User::factory()->create();
-    actingAs($user);
+    $user      = User::factory()->create();
     $questions = Question::factory()->count(5)->create();
+    actingAs($user);
 
     // Act :: Agir
     $response = get(route('dashboard'));
