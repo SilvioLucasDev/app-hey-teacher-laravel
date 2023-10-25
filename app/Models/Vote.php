@@ -14,4 +14,9 @@ class Vote extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function question(): BelongsTo
+    {
+        return $this->belongsTo(Question::class);
+    }
 }
