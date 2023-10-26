@@ -29,3 +29,20 @@ it('should return a view', function () {
     //Assert :: Verificar
     $request->assertViewIs('question.edit');
 });
+
+it('should make sure that only question with status DRAFT can be edited', function () {
+    // Arrange :: Preparar
+    $user             = User::factory()->create();
+    $questionNotDraft = Question::factory()->create(['created_by' => $user->id, 'draft' => false]);
+    $draftQuestion    = Question::factory()->create(['created_by' => $user->id, 'draft' => true]);
+    actingAs($user);
+
+    // Act :: Agir
+    $requestNotDraft = get(route('question.edit', $questionNotDraft));
+
+    $requestDraft = get(route('question.edit', $draftQuestion));
+
+    //Assert :: Verificar
+    $requestNotDraft->assertForbidden();
+    $requestDraft->assertSuccessful();
+});
