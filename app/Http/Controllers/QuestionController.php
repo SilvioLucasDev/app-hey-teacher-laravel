@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Question;
 use Closure;
 use Illuminate\Http\{RedirectResponse, Request};
 
@@ -22,7 +21,7 @@ class QuestionController extends Controller
             ],
         ]);
 
-        Question::query()->create(
+        user()->questions()->create(
             [
                 'question' => request()->question,
                 'draft'    => true,
