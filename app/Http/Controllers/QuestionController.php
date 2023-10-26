@@ -49,10 +49,23 @@ class QuestionController extends Controller
         ]);
     }
 
-    public function update(Question $question): RedirectResponse
+    public function update(Request $request, Question $question): RedirectResponse
     {
         $this->authorize('update', $question);
-        $question->question = request()->question;
+
+        $request->validate([
+            'question' => [
+                'required',
+                'min:10',
+                function (string $attribute, mixed $value, Closure $fail) {
+                    if (!str($value)->endsWith('?')) {
+                        $fail('Are you sure that is a question? It is missing the question mark in the end.');
+                    }
+                },
+            ],
+        ]);
+
+        $question->question = $request->question;
         $question->save();
 
         return back();
