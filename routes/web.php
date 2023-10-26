@@ -24,9 +24,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    /** Dashboard Route */
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-Route::middleware('auth')->group(function () {
     /** Profile Routes */
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -35,6 +36,8 @@ Route::middleware('auth')->group(function () {
     /** Question Routes */
     Route::get('/question', [QuestionController::class, 'index'])->name('question.index');
     Route::post('/question/store', [QuestionController::class, 'store'])->name('question.store');
+    Route::get('/question/{question}/edit', [QuestionController::class, 'edit'])->name('question.edit');
+    Route::put('/question/{question}', [QuestionController::class, 'update'])->name('question.update');
     Route::delete('/question/{question}', [QuestionController::class, 'destroy'])->name('question.destroy');
     Route::post('/question/like/{question}', Question\LikeController::class)->name('question.like');
     Route::post('/question/unlike/{question}', Question\UnlikeController::class)->name('question.unlike');
