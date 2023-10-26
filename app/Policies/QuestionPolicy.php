@@ -11,6 +11,11 @@ class QuestionPolicy
         return $question->created_by === $user->id;
     }
 
+    public function update(User $user, Question $question): bool
+    {
+        return $question->draft && $question->created_by === $user->id;
+    }
+
     public function destroy(User $user, Question $question): bool
     {
         return $question->created_by === $user->id;
