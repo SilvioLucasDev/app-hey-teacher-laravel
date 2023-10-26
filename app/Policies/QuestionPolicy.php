@@ -13,7 +13,7 @@ class QuestionPolicy
 
     public function update(User $user, Question $question): bool
     {
-        return $question->draft;
+        return $question->draft && $question->created_by === $user->id;
     }
 
     public function destroy(User $user, Question $question): bool
