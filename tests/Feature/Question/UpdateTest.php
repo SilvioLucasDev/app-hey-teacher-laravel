@@ -16,7 +16,7 @@ it('should be able to update a question', function () {
     ]);
 
     //Assert :: Verificar
-    $request->assertRedirect();
+    $request->assertRedirect(route('question.index'));
     $question->refresh();
     expect($question)->question->toBe('Updated Question?');
 });
