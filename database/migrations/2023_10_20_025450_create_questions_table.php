@@ -16,6 +16,7 @@ return new class () extends Migration {
             $table->foreignIdFor(User::class, 'created_by');
             $table->text('question');
             $table->boolean('draft')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
