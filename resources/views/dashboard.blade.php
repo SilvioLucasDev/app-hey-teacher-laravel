@@ -1,17 +1,36 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <x-header>
+            {{ __('Vote for a question') }}
+        </x-header>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
+    <x-container>
+        <div class="dark:text-gray-400 uppercase font-bold mb-1">My Questions</div>
+        <div class="dark:text-gray-400 space-y-4">
+            <x-card>
+                <x-form get :action="route('dashboard')" class="flex space-x-2">
+                    <x-text-input type="text" name="search" value="{{ request()->search }}" class="w-full"
+                        style="margin-left: 0px" />
+                    <x-btn.primary>Search</x-btn.primary>
+                </x-form>
+            </x-card>
+
+            @forelse ($questions as $item)
+                <x-question :question="$item" />
+            @empty
+                <div class="flex flex-col">
+                    <div class="flex justify-center mb-4">
+                        <x-draw.searching width="250" />
+                    </div>
+
+                    <div class="flex justify-center font-bold uppercase">
+                        <p>Question Not Found</p>
+                    </div>
                 </div>
-            </div>
+            @endforelse
+
+            {{ $questions->withQueryString()->links() }}
         </div>
-    </div>
+    </x-container>
 </x-app-layout>

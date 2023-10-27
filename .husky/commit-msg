@@ -22,7 +22,7 @@ if [[ $COMMIT_MESSAGE == $ISSUE_ID* ]]; then
 fi
 
 # Verificar se a mensagem de commit contém as tags semânticas com dois pontos
-SEMANTIC_TAGS=("docs:" "feat:" "fix:" "perf:" "test:" "refactor:" "style:" "build:" "ci:" "chore:" "revert:")
+SEMANTIC_TAGS=("docs:" "feat:" "fix:" "perf:" "test:" "refactor:" "style:" "build:" "ci:" "chore:" "revert:" "Merge")
 
 for TAG in "${SEMANTIC_TAGS[@]}"; do
   if [[ $COMMIT_MESSAGE == *"$TAG"* ]]; then
